@@ -1,23 +1,21 @@
 package com.example.ilijaangeleski.converttexttojson.view;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ilijaangeleski.converttexttojson.R;
+import com.example.ilijaangeleski.converttexttojson.di.component.DaggerMainComponent;
+import com.example.ilijaangeleski.converttexttojson.di.module.AppModule;
+import com.example.ilijaangeleski.converttexttojson.di.module.MainModule;
 import com.example.ilijaangeleski.converttexttojson.presenter.MainPresenter;
 
-import org.json.JSONException;
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
-
-import static android.widget.Toast.LENGTH_SHORT;
 
 public class MainActivity extends AppCompatActivity implements MainView {
     @BindView(R.id.input)
@@ -26,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @BindView(R.id.jsonOutput)
     TextView jsonOutput;
 
+    @Inject
     MainPresenter presenter;
 
     @Override
@@ -33,8 +32,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        presenter = new MainPresenter(this);
-
+        DaggerMainComponent.builder().mainModule(new MainModule(this)).appModule(new AppModule(getApplicationContext())).build().inject(this);
     }
 
     @OnTextChanged(R.id.input)

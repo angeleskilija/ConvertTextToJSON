@@ -10,13 +10,12 @@ import java.lang.ref.WeakReference;
 /**
  * Created by Ilija Angeleski on 11/21/2017.
  */
-
 public class MainPresenter {
     private MainManager mainManager;
     private WeakReference<MainView> weakView;
 
-    public MainPresenter(MainView view) {
-        this.mainManager = new MainManager();
+    public MainPresenter(MainView view, MainManager mainManager) {
+        this.mainManager = mainManager;
         this.weakView = new WeakReference<>(view);
     }
 
