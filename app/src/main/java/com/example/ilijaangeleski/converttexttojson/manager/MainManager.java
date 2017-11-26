@@ -19,11 +19,20 @@ public class MainManager {
             + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
             + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)";
 
+    private StorageManager storageManager;
+
+    public MainManager(StorageManager storageManager) {
+        this.storageManager = storageManager;
+    }
+
     public String parseUserInput(String text) throws JSONException {
         JSONObject output = new JSONObject();
         output.put("emojis", extractEmojisFromText(text));
         output.put("links", extractUrlsFromText(text));
         output.put("mentions", extractMentionsFromText(text));
+
+        storageManager.saveResult(output.toString());
+
         return output.toString();
     }
 
